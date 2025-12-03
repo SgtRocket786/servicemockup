@@ -9,20 +9,11 @@
       rel="stylesheet"
     />
 
-    <script>
-      (function () {
-        var parts = location.pathname.split("/").filter(Boolean);
-        var base = parts.length ? "/" + parts[0] + "/" : "/";
-        var el = document.createElement("base");
-        el.href = base;
-        document.head.appendChild(el);
-      })();
-    </script>
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/header.css" />
-    <link rel="stylesheet" href="css/portfolio.css" />
-    <link rel="stylesheet" href="css/footer.css" />
-    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="../../css/base.css" />
+    <link rel="stylesheet" href="../../css/header.css" />
+    <link rel="stylesheet" href="../../css/portfolio.css" />
+    <link rel="stylesheet" href="../../css/footer.css" />
+    <link rel="stylesheet" href="../../css/admin.css" />
     <style>
       .admin-wrap {
         max-width: 1100px;
@@ -86,7 +77,7 @@
     </style>
   </head>
   <body>
-    <header id="navbar" data-src="html/_navbar.html"></header>
+    <header id="navbar" data-src="../_navbar.html"></header>
     <main>
       <div class="admin-wrap">
         <h1>Admin — Portfolio Posts</h1>
@@ -243,17 +234,17 @@
         </div>
       </div>
     </main>
-    <footer id="footer" data-src="html/_footer.html"></footer>
+    <footer id="footer" data-src="../_footer.html"></footer>
 
-    <script src="js/config.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/nav-load.js"></script>
-    <script src="js/footer-load.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script src="../../js/nav-load.js"></script>
+    <script src="../../js/footer-load.js"></script>
     <script>
       // set API base for admin to point to server when running locally
       // change or set window.API_BASE = 'http://localhost:5000' when running server
       window.API_BASE = "";
     </script>
-    <script src="js/admin.js"></script>
+    <script src="../../js/admin.js"></script>
   </body>
 </html>
