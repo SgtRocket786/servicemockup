@@ -1,30 +1,18 @@
 (async () => {
-  function getBasePrefix() {
-    var parts = location.pathname.split("/").filter(Boolean);
-    if (parts.length === 0) return "";
-    if (parts[0].indexOf(".") !== -1) return "";
-    if (parts[0] === "html") return "";
-    return "/" + parts[0];
-  }
-  var base = getBasePrefix();
-
   const w = document.getElementById("home-portfolio");
   if (!w) return;
-  const r = await fetch((base || "") + "/html/portfolio/posts.json");
-  const p = await r.json();
-  w.innerHTML = p
-    .slice(0, 3)
-    .map((x) => {
-      var href =
-        (base || "") + "/html/portfolio/posts/" + x.slug + "/index.html";
-      var hasThumb = !!x.thumb;
-      var thumb =
-        x.thumb && x.thumb.indexOf("/") === 0
-          ? (base || "") + x.thumb
-          : x.thumb || (base || "") + "/images/pexels-pixabay-259588.jpg";
-      var initial = (x.title || "P").trim().charAt(0).toUpperCase();
-      var noThumbClass = hasThumb ? "" : " no-thumb";
-      return `
+  try {
+    const r = await fetch("html/portfolio/posts.json");
+    const p = await r.json();
+    w.innerHTML = p
+      .slice(0, 3)
+      .map((x) => {
+        var href = "html/portfolio/posts/" + x.slug + "/index.html";
+        var hasThumb = !!x.thumb;
+        var thumb = x.thumb || "images/pexels-pixabay-259588.jpg";
+        var initial = (x.title || "P").trim().charAt(0).toUpperCase();
+        var noThumbClass = hasThumb ? "" : " no-thumb";
+        return `
         <a class="post-card card-link${noThumbClass}" href="${href}">
           ${
             hasThumb
@@ -37,6 +25,10 @@
           </div>
         </a>
       `;
-    })
-    .join("");
+      })
+      .join("");
+  } catch (e) {
+    w.innerHTML = "<p>Failed to load projects.</p>";
+    console.error("home-portfolio: fetch failed", e);
+  }
 })();
