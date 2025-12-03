@@ -67,7 +67,7 @@
     </style>
   </head>
   <body>
-    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+    <header id="navbar" data-src="html/_navbar.html"></header>
     <main>
       <section class="login-page">
         <div class="login-card">
@@ -90,10 +90,11 @@
       </section>
     </main>
 
-    <script src="/js/config.js"></script>
-    <script src="/js/ui.js"></script>
-    <script src="/js/nav-load.js"></script>
-    <script src="/js/footer-load.js"></script>
+    <footer id="footer" data-src="html/_footer.html"></footer>
+    <script src="js/config.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/nav-load.js"></script>
+    <script src="js/footer-load.js"></script>
     <script>
       // placeholder handler — redirect to admin dashboard for now
       document.addEventListener("DOMContentLoaded", function () {
