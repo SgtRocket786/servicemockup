@@ -8,10 +8,19 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/base.css" />
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/about.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
+    <script>
+      (function () {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = parts.length ? "/" + parts[0] + "/" : "/";
+        var el = document.createElement("base");
+        el.href = base;
+        document.head.appendChild(el);
+      })();
+    </script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/about.css" />
+    <link rel="stylesheet" href="css/footer.css" />
   </head>
   <body>
     <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
@@ -51,7 +60,7 @@
           </div>
           <div class="about-image">
             <img
-              src="/images/pexels-pixabay-259588.jpg"
+              src="images/pexels-pixabay-259588.jpg"
               alt="Acme Landscaping team at work"
             />
           </div>
@@ -64,7 +73,7 @@
           <div class="team-grid">
             <div class="team-member">
               <img
-                src="/images/pexels-pixabay-259588.jpg"
+                src="images/pexels-pixabay-259588.jpg"
                 alt="John Doe - Founder & Lead Designer"
               />
               <h3>John Doe</h3>
@@ -75,7 +84,7 @@
             </div>
             <div class="team-member">
               <img
-                src="/images/pexels-pixabay-259588.jpg"
+                src="images/pexels-pixabay-259588.jpg"
                 alt="Jane Smith - Project Manager"
               />
               <h3>Jane Smith</h3>
@@ -86,7 +95,7 @@
             </div>
             <div class="team-member">
               <img
-                src="/images/pexels-pixabay-259588.jpg"
+                src="images/pexels-pixabay-259588.jpg"
                 alt="Mike Johnson - Hardscape Specialist"
               />
               <h3>Mike Johnson</h3>
@@ -101,13 +110,13 @@
         <div class="container">
           <h2>Ready to Transform Your Outdoor Space?</h2>
           <p>Let's discuss your landscaping vision and make it a reality.</p>
-          <a href="/index.html#lead" class="btn btn-primary">Contact/Quote</a>
+          <a href="index.html#lead" class="btn btn-primary">Contact/Quote</a>
         </div>
       </section>
     </main>
-    <script src="/js/config.js"></script>
-    <script src="/js/ui.js"></script>
-    <script src="/js/nav-load.js"></script>
-    <script src="/js/footer-load.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/nav-load.js"></script>
+    <script src="js/footer-load.js"></script>
   </body>
 </html>

@@ -4,21 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Modern Retaining Wall 2025</title>
-    <link rel="stylesheet" href="/css/base.css" />
-    <link rel="stylesheet" href="/css/portfolio.css" />
-    <script src="/js/nav-load.js" defer></script>
-    <script src="/js/footer-load.js" defer></script>
-    <script src="/js/lightbox.js" defer></script>
+    <script>
+      (function () {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = parts.length ? "/" + parts[0] + "/" : "/";
+        var el = document.createElement("base");
+        el.href = base;
+        document.head.appendChild(el);
+      })();
+    </script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/portfolio.css" />
+    <script src="js/nav-load.js" defer></script>
+    <script src="js/footer-load.js" defer></script>
+    <script src="js/lightbox.js" defer></script>
   </head>
   <body>
-    <header id="navbar" data-src="/html/_navbar.html"></header>
+    <header id="navbar" data-src="html/_navbar.html"></header>
     <main class="container">
       <article class="post-detail">
         <h1>Modern Retaining Wall</h1>
         <p class="muted">Lakewood, CO • Hardscaping • 2025-06-10</p>
         <img
           class="hero"
-          src="/images/pexels-pixabay-259588.jpg"
+          src="images/pexels-pixabay-259588.jpg"
           alt="Retaining Wall"
         />
         <p>
@@ -27,9 +36,9 @@
         </p>
       </article>
       <p>
-        <a class="btn" href="/html/portfolio/index.html">Back to Portfolio</a>
+        <a class="btn" href="html/portfolio/index.html">Back to Portfolio</a>
       </p>
     </main>
-    <footer id="footer" data-src="/html/_footer.html"></footer>
+    <footer id="footer" data-src="html/_footer.html"></footer>
   </body>
 </html>

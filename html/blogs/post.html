@@ -4,10 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Blog Post</title>
-    <link rel="stylesheet" href="/css/base.css" />
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/blog-post.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
+    <script>
+      (function () {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var base = parts.length ? "/" + parts[0] + "/" : "/";
+        var el = document.createElement("base");
+        el.href = base;
+        document.head.appendChild(el);
+      })();
+    </script>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/blog-post.css" />
+    <link rel="stylesheet" href="css/footer.css" />
   </head>
   <body>
     <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
@@ -17,7 +26,7 @@
       <article id="post" class="blog-content"></article>
       <div class="container">
         <p>
-          <a class="project-back" href="/html/blogs/index.html"
+          <a class="project-back" href="html/blogs/index.html"
             >← Back to Blog</a
           >
         </p>
@@ -31,7 +40,7 @@
         document.getElementById("post").innerHTML =
           '<div class="container"><p>Missing post slug.</p></div>';
       } else {
-        fetch("/html/blogs/posts.json")
+        fetch("html/blogs/posts.json")
           .then((r) => r.json())
           .then((posts) => posts.find((p) => p.slug === slug))
           .then((p) => {
@@ -40,8 +49,7 @@
                 '<div class="container"><p>Post not found.</p></div>';
               return;
             }
-            const img =
-              p.hero || p.thumb || "/images/pexels-pixabay-259588.jpg";
+            const img = p.hero || p.thumb || "images/pexels-pixabay-259588.jpg";
             const date = p.date ? new Date(p.date).toLocaleDateString() : "";
             const heroEl = document.getElementById("hero");
             heroEl.style.backgroundImage = `url('${img}')`;
@@ -70,7 +78,7 @@
           });
       }
     </script>
-    <script src="/js/nav-load.js"></script>
-    <script src="/js/footer-load.js"></script>
+    <script src="js/nav-load.js"></script>
+    <script src="js/footer-load.js"></script>
   </body>
 </html>
