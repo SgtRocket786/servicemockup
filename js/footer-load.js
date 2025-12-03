@@ -8,13 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   var base = getBasePrefix();
 
-  fetch((base || "") + "/html/_footer.html")
+  var footerEl = document.getElementById("footer");
+  var srcAttr = footerEl ? footerEl.getAttribute("data-src") : null;
+  var footerSrc = srcAttr || (base || "") + "/html/_footer.html";
+  console.debug("[footer-load] footer src:", footerSrc);
+  fetch(footerSrc)
     .then(function (r) {
       return r.text();
     })
     .then(function (html) {
-      // Insert footer before the end of body
-      document.body.insertAdjacentHTML("beforeend", html);
+      if (footerEl) {
+        footerEl.innerHTML = html;
+      } else {
+        document.body.insertAdjacentHTML("beforeend", html);
+      }
 
       // Fix root-relative paths inside the footer (so /images/... becomes /repo/images/... when hosted under a repo)
       try {
@@ -61,6 +68,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     })
     .catch(function (err) {
-      console.error("Failed to load footer:", err);
+      console.error("[footer-load] failed:", err);
+      if (footerEl) {
+        footerEl.innerHTML =
+          '<div class="container"><p class="muted">Footer failed to load.</p></div>';
+      }
     });
 });

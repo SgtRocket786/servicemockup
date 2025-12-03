@@ -11,14 +11,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   var base = getBasePrefix();
 
-  // Load the navbar partial and inject at the top of the body
-  fetch((base || "") + "/html/_navbar.html")
+  var headerEl = document.getElementById("navbar");
+  var srcAttr = headerEl ? headerEl.getAttribute("data-src") : null;
+  var navbarSrc = srcAttr || (base || "") + "/html/_navbar.html";
+  console.debug("[nav-load] navbar src:", navbarSrc);
+  // Load the navbar partial and inject at the top of the body or into #navbar
+  fetch(navbarSrc)
     .then(function (r) {
       return r.text();
     })
     .then(function (html) {
-      // Insert navbar at top
-      document.body.insertAdjacentHTML("afterbegin", html);
+      if (headerEl) {
+        headerEl.innerHTML = html;
+      } else {
+        document.body.insertAdjacentHTML("afterbegin", html);
+      }
 
       // Fix any root-relative paths inside the injected partial (e.g. /css/, /images/)
       try {
@@ -38,8 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Wire up mobile menu toggle
-      var menuToggle = document.querySelector(".menu-toggle");
-      var nav = document.querySelector(".nav");
+      var scope = headerEl || document;
+      var menuToggle = scope.querySelector(".menu-toggle");
+      var nav = scope.querySelector(".nav");
       if (menuToggle && nav) {
         menuToggle.addEventListener("click", function () {
           menuToggle.classList.toggle("active");
@@ -48,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Close mobile nav when a link is clicked
-      document.querySelectorAll(".nav a").forEach(function (a) {
+      (headerEl || document).querySelectorAll(".nav a").forEach(function (a) {
         a.addEventListener("click", function () {
           if (nav.classList.contains("active")) {
             nav.classList.remove("active");
@@ -101,6 +109,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     })
     .catch(function (err) {
-      console.error("Failed to load navbar:", err);
+      console.error("[nav-load] failed:", err);
+      if (headerEl) {
+        headerEl.innerHTML =
+          '<div class="container"><p class="muted">Navbar failed to load.</p></div>';
+      }
     });
 });
