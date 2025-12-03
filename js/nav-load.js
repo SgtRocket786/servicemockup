@@ -4,8 +4,29 @@ document.addEventListener("DOMContentLoaded", function () {
   var navbarSrc = srcAttr || "html/_navbar.html";
   console.debug("[nav-load] navbar src:", navbarSrc);
   // Load the navbar partial and inject at the top of the body or into #navbar
+  function repoPrefixed(url) {
+    try {
+      var parts = location.pathname.split("/").filter(Boolean);
+      var repo = parts[0] || "";
+      if (!repo || repo === "html") return url;
+      return "/" + repo + "/" + url.replace(/^\//, "");
+    } catch (e) {
+      return url;
+    }
+  }
+
   fetch(navbarSrc)
     .then(function (r) {
+      if (!r.ok) {
+        // Try with repo prefix once (for GitHub Pages project sites)
+        var alt = repoPrefixed(navbarSrc);
+        if (alt !== navbarSrc) {
+          console.debug("[nav-load] retry with repo prefix:", alt);
+          return fetch(alt).then(function (r2) {
+            return r2.text();
+          });
+        }
+      }
       return r.text();
     })
     .then(function (html) {

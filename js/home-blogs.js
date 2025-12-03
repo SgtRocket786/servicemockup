@@ -2,8 +2,20 @@
   const grid = document.getElementById("home-blogs");
   if (!grid) return;
   try {
-    const r = await fetch("html/blogs/posts.json");
-    const items = await r.json();
+    async function getJson(url) {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var repo = parts[0] || "";
+        if (repo && repo !== "html") {
+          var alt = "/" + repo + "/" + url.replace(/^\//, "");
+          const r2 = await fetch(alt, { cache: "no-store" });
+          if (r2.ok) return r2.json();
+        }
+      }
+      return r.json();
+    }
+    const items = await getJson("html/blogs/posts.json");
     const three = (items || []).slice(0, 3);
     grid.innerHTML = three
       .map((p) => {

@@ -2,8 +2,20 @@
   const w = document.getElementById("home-portfolio");
   if (!w) return;
   try {
-    const r = await fetch("html/portfolio/posts.json");
-    const p = await r.json();
+    async function getJson(url) {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var repo = parts[0] || "";
+        if (repo && repo !== "html") {
+          var alt = "/" + repo + "/" + url.replace(/^\//, "");
+          const r2 = await fetch(alt, { cache: "no-store" });
+          if (r2.ok) return r2.json();
+        }
+      }
+      return r.json();
+    }
+    const p = await getJson("html/portfolio/posts.json");
     w.innerHTML = p
       .slice(0, 3)
       .map((x) => {

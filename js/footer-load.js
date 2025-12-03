@@ -3,8 +3,28 @@ document.addEventListener("DOMContentLoaded", function () {
   var srcAttr = footerEl ? footerEl.getAttribute("data-src") : null;
   var footerSrc = srcAttr || "html/_footer.html";
   console.debug("[footer-load] footer src:", footerSrc);
+  function repoPrefixed(url) {
+    try {
+      var parts = location.pathname.split("/").filter(Boolean);
+      var repo = parts[0] || "";
+      if (!repo || repo === "html") return url;
+      return "/" + repo + "/" + url.replace(/^\//, "");
+    } catch (e) {
+      return url;
+    }
+  }
+
   fetch(footerSrc)
     .then(function (r) {
+      if (!r.ok) {
+        var alt = repoPrefixed(footerSrc);
+        if (alt !== footerSrc) {
+          console.debug("[footer-load] retry with repo prefix:", alt);
+          return fetch(alt).then(function (r2) {
+            return r2.text();
+          });
+        }
+      }
       return r.text();
     })
     .then(function (html) {

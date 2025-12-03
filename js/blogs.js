@@ -1,8 +1,20 @@
 (async () => {
   const grid = document.getElementById("posts");
   try {
-    const res = await fetch("html/blogs/posts.json");
-    const posts = await res.json();
+    async function getJson(url) {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) {
+        var parts = location.pathname.split("/").filter(Boolean);
+        var repo = parts[0] || "";
+        if (repo && repo !== "html") {
+          var alt = "/" + repo + "/" + url.replace(/^\//, "");
+          const r2 = await fetch(alt, { cache: "no-store" });
+          if (r2.ok) return r2.json();
+        }
+      }
+      return r.json();
+    }
+    const posts = await getJson("html/blogs/posts.json");
     const html = (posts || [])
       .map((p) => {
         var href =
