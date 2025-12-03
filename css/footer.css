@@ -1,0 +1,116 @@
+/* Footer styles — aesthetic, responsive */
+.site-footer {
+  background: linear-gradient(180deg, var(--primary-dark), #0b2a22);
+  color: rgba(255, 255, 255, 0.95);
+  padding: 3rem 0 2rem;
+  box-shadow: var(--shadow-lg);
+  margin-top: 3rem;
+}
+
+.site-footer .footer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.site-footer .footer-col h4 {
+  color: rgba(255, 255, 255, 0.98);
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.footer-logo {
+  max-width: 140px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.site-footer p,
+.site-footer a,
+.site-footer li {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+}
+
+.site-footer a {
+  text-decoration: none;
+  transition: color var(--anim-duration) ease,
+    transform var(--anim-duration) ease;
+}
+
+.site-footer a:hover {
+  color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin: 0.4rem 0;
+}
+
+.footer-contact .footer-phone {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.95);
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.footer-social a:hover {
+  background: var(--primary-light);
+  color: var(--white);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+}
+
+.site-footer .footer-about p {
+  max-width: 32rem;
+}
+
+/* Responsive: stack columns on smaller screens */
+@media (max-width: 900px) {
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .footer-logo {
+    max-width: 120px;
+  }
+  .site-footer {
+    padding: 2rem 0 1.5rem;
+  }
+}
+
+/* Utility: keep footer links accessible and easy to click */
+.site-footer a:focus {
+  outline: 3px solid rgba(38, 122, 96, 0.15);
+  outline-offset: 3px;
+}

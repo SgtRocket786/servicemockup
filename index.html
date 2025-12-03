@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Acme Landscaping & Outdoor Living</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/portfolio.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="icon" href="/images/logo/logo.png" />
+  </head>
+  <body>
+    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+    <header id="navbar" data-src="/html/_navbar.html"></header>
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>Transform Your Outdoor Space</h1>
+          <p>
+            Creating stunning, sustainable landscapes that bring your vision to
+            life. Specializing in patios, hardscapes, and xeriscapes for
+            Colorado homes.
+          </p>
+          <div class="hero-buttons">
+            <a href="#lead" class="btn btn-primary">Get Free Quote</a>
+            <a href="/html/portfolio/index.html" class="btn btn-secondary"
+              >View Our Work</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="about-preview">
+        <div class="container about-preview-grid">
+          <div class="about-preview-content">
+            <h2>Colorado's Trusted Landscaping Experts</h2>
+            <p>
+              Since 2010, we've been crafting beautiful, sustainable outdoor
+              spaces that enhance the natural beauty of Colorado homes. Our team
+              combines creativity with technical expertise to deliver landscapes
+              that stand the test of time.
+            </p>
+            <div class="achievement-grid">
+              <div class="achievement">
+                <strong>15+</strong>
+                <span>Years Experience</span>
+              </div>
+              <div class="achievement">
+                <strong>500+</strong>
+                <span>Projects Completed</span>
+              </div>
+              <div class="achievement">
+                <strong>100%</strong>
+                <span>Satisfaction Rate</span>
+              </div>
+            </div>
+            <a href="/html/about-us.html" class="btn btn-primary"
+              >Learn More About Us</a
+            >
+          </div>
+          <div class="about-preview-image">
+            <img
+              src="/images/pexels-pixabay-259588.jpg"
+              alt="Acme Landscaping team at work"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="container" id="recent-projects">
+        <h2>Recent Projects</h2>
+        <div id="home-portfolio" class="post-grid"></div>
+        <div class="text-center">
+          <a class="btn btn-primary" href="/html/portfolio/index.html"
+            >View All Projects</a
+          >
+        </div>
+      </section>
+
+      <section class="container" id="recent-blogs">
+        <h2>Latest Blog Posts</h2>
+        <div id="home-blogs" class="post-grid"></div>
+        <div class="text-center">
+          <a class="btn btn-primary" href="/html/blogs/index.html"
+            >View All Posts</a
+          >
+        </div>
+      </section>
+
+      <section class="container" id="services">
+        <h2>Our Expertise</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Custom Patios</h3>
+            <p>
+              Beautiful outdoor living spaces designed for entertaining and
+              relaxation.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Xeriscaping</h3>
+            <p>
+              Water-wise landscaping solutions perfect for Colorado's climate.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Hardscaping</h3>
+            <p>
+              Durable and elegant stone features, walkways, and retaining walls.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="cta-section">
+        <div class="container">
+          <h2>Ready to Transform Your Outdoor Space?</h2>
+          <p>Let's discuss your landscaping vision and make it a reality.</p>
+          <a href="/index.html#lead" class="btn btn-primary">Contact/Quote</a>
+        </div>
+      </section>
+      <section id="lead">
+        <div class="container">
+          <h2>Get Your Free Quote</h2>
+          <p class="lead-text">
+            Transform your outdoor space into something extraordinary. Contact
+            us today for a free consultation.
+          </p>
+          <form id="quote-form">
+            <input type="text" placeholder="Your Name" required />
+            <input type="tel" placeholder="Phone Number" required />
+            <input type="email" placeholder="Email Address" required />
+            <textarea
+              placeholder="Tell us about your project"
+              rows="4"
+            ></textarea>
+            <button type="submit" class="btn btn-primary">
+              Get Free Quote
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script src="/js/config.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/nav-load.js"></script>
+    <script src="/js/footer-load.js"></script>
+    <script src="/js/home-portfolio.js"></script>
+    <script src="/js/home-blogs.js"></script>
+    <script src="/js/home-services.js"></script>
+    <script>
+      // Load blogs to mirror React's HomeBlogs (using local mock for prototype)
+      fetch("/html/blogs/posts.json")
+        .then((r) => r.json())
+        .then((items) => {
+          const grid = document.getElementById("home-blogs");
+          if (!Array.isArray(items) || items.length === 0) {
+            grid.innerHTML = "<p>No blog posts yet.</p>";
+            return;
+          }
+          grid.innerHTML = items
+            .map((p) => {
+              const hasThumb = !!p.thumb;
+              const img = p.thumb || "/images/projects/patio-arvada/cover.jpg";
+              const date = p.date
+                ? new Date(p.date).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })
+                : "";
+              const noThumbClass = hasThumb ? "" : "no-thumb";
+              return `
+                <a class="post-card blog-card card-link ${noThumbClass}" href="/html/blogs/post.html?slug=${encodeURIComponent(
+                p.slug
+              )}">
+                  ${
+                    hasThumb
+                      ? `<div class="thumb"><img src="${img}" alt="${p.title}" /></div>`
+                      : `<div class="thumb no-thumb" aria-hidden="true"><span class="date-text">${
+                          date || "—"
+                        }</span></div>`
+                  }
+                  <div class="post-body">
+                    <h3>${p.title}</h3>
+                    ${date ? `<p class="meta">${date}</p>` : ""}
+                    <p>${(p.excerpt || "").slice(0, 140)}...</p>
+                  </div>
+                </a>
+              `;
+            })
+            .join("");
+        })
+        .catch(() => {
+          const grid = document.getElementById("home-blogs");
+          if (grid) grid.innerHTML = "<p>Failed to load blog posts.</p>";
+        });
+    </script>
+  </body>
+</html>

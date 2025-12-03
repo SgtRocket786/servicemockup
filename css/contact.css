@@ -1,0 +1,209 @@
+/* Contact Page Dedicated Styles */
+
+.contact-hero {
+  background: linear-gradient(rgba(27, 94, 74, 0.85), rgba(27, 94, 74, 0.85)),
+    url("/images/pexels-pixabay-259588.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 120px 0 80px;
+  color: var(--white);
+  text-align: center;
+  margin-top: -80px;
+}
+.contact-hero h1 {
+  font-size: 3rem;
+  margin: 0 0 1rem;
+}
+.contact-subtitle {
+  font-size: 1.15rem;
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.contact-grid-section {
+  padding: 4rem 0 2.5rem;
+  background: var(--gray-100);
+}
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact-form-wrapper h2 {
+  margin: 0 0 0.75rem;
+  color: var(--primary);
+}
+.contact-intro {
+  margin: 0 0 1.5rem;
+  color: var(--gray-600);
+  line-height: 1.55;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--white);
+  padding: 2.25rem 2rem 2.6rem;
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  position: relative;
+}
+.contact-form:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(27, 94, 74, 0.08),
+    rgba(27, 94, 74, 0) 60%
+  );
+}
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--gray-50, #f7f9fa);
+  transition: var(--transition);
+}
+.contact-form textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(27, 94, 74, 0.12);
+}
+.contact-form select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--primary) 50%),
+    linear-gradient(135deg, var(--primary) 50%, transparent 50%),
+    linear-gradient(to right, var(--gray-50, #f7f9fa), var(--gray-50, #f7f9fa));
+  background-position: calc(100% - 24px) calc(1.1em),
+    calc(100% - 19px) calc(1.1em), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+}
+.contact-form select:hover {
+  border-color: var(--primary);
+}
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border-color: var(--primary);
+}
+.contact-form .btn {
+  margin-top: 0.5rem;
+}
+.form-status {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+}
+.form-status.success {
+  color: var(--primary);
+}
+.form-status.error {
+  color: #b00020;
+}
+
+.contact-info-card {
+  background: var(--white);
+  padding: 2rem 2rem 2.3rem;
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.contact-info-card h3 {
+  margin: 0;
+  color: var(--primary);
+}
+.contact-blurb {
+  margin: 0 0 0.5rem;
+  color: var(--gray-600);
+  line-height: 1.55;
+}
+.contact-info-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+}
+.contact-info-list a {
+  color: var(--primary);
+  text-decoration: none;
+}
+.contact-info-list a:hover {
+  text-decoration: underline;
+}
+.contact-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.contact-side-note {
+  background: var(--white);
+  padding: 1.6rem 1.4rem 1.8rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+}
+.contact-side-note h4 {
+  margin: 0 0 0.7rem;
+  color: var(--primary);
+  font-size: 1.05rem;
+}
+.tips-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+}
+.tips-list li {
+  background: var(--gray-200);
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+}
+
+@media (max-width: 1100px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row {
+    flex-direction: column;
+  }
+}
+@media (max-width: 600px) {
+  .contact-hero h1 {
+    font-size: 2.4rem;
+  }
+  .contact-form {
+    padding: 1.8rem 1.3rem 2.2rem;
+  }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/blog-post.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+  </head>
+  <body>
+    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+
+    <main>
+      <section id="hero" class="blog-hero" aria-hidden="true"></section>
+      <article id="post" class="blog-content"></article>
+      <div class="container">
+        <p>
+          <a class="project-back" href="/html/blogs/index.html"
+            >← Back to Blog</a
+          >
+        </p>
+      </div>
+    </main>
+
+    <script>
+      const params = new URLSearchParams(location.search);
+      const slug = params.get("slug");
+      if (!slug) {
+        document.getElementById("post").innerHTML =
+          '<div class="container"><p>Missing post slug.</p></div>';
+      } else {
+        fetch("/html/blogs/posts.json")
+          .then((r) => r.json())
+          .then((posts) => posts.find((p) => p.slug === slug))
+          .then((p) => {
+            if (!p || !p.title) {
+              document.getElementById("post").innerHTML =
+                '<div class="container"><p>Post not found.</p></div>';
+              return;
+            }
+            const img =
+              p.hero || p.thumb || "/images/pexels-pixabay-259588.jpg";
+            const date = p.date ? new Date(p.date).toLocaleDateString() : "";
+            const heroEl = document.getElementById("hero");
+            heroEl.style.backgroundImage = `url('${img}')`;
+            heroEl.innerHTML = `
+              <div class="hero-inner">
+                <div class="container">
+                  <h1 class="blog-title">${p.title}</h1>
+                  <div class="blog-meta">${
+                    date ? `<span>${date}</span>` : ""
+                  }</div>
+                </div>
+              </div>`;
+
+            document.getElementById("post").innerHTML = `
+              <div class="container">
+                <section class="blog-body">
+                  <p class="blog-overview">${p.excerpt || ""}</p>
+                  <div class="blog-text">${p.content || ""}</div>
+                </section>
+              </div>
+            `;
+          })
+          .catch(() => {
+            document.getElementById("post").innerHTML =
+              '<div class="container"><p>Failed to load post.</p></div>';
+          });
+      }
+    </script>
+    <script src="/js/nav-load.js"></script>
+    <script src="/js/footer-load.js"></script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+/* Aesthetic error pages styling (401, 404, etc.) */
+.error-hero {
+  position: relative;
+  min-height: 42vh;
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  margin-bottom: 2rem;
+  background: radial-gradient(
+      1200px 600px at 20% 0%,
+      rgba(27, 94, 74, 0.35),
+      rgba(27, 94, 74, 0.06)
+    ),
+    linear-gradient(135deg, rgba(27, 94, 74, 0.18), rgba(27, 94, 74, 0.06));
+  border-radius: 12px;
+  overflow: hidden;
+}
+.error-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35));
+  z-index: 1;
+}
+.error-hero .hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 4rem 2rem;
+  width: 100%;
+}
+.error-code {
+  margin: 0;
+  font-size: 4rem;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+.error-title {
+  margin: 0.25rem 0 0.35rem;
+  font-size: 1.75rem;
+}
+.error-subtitle {
+  margin: 0;
+  opacity: 0.95;
+}
+
+.error-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  padding: 1.5rem 1.75rem;
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+}
+.error-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+}
+.btn-primary {
+  display: inline-block;
+  padding: 0.6rem 0.9rem;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-outline {
+  display: inline-block;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  border-radius: 8px;
+  text-decoration: none;
+  background: transparent;
+}
+
+.error-help {
+  color: var(--gray-600);
+}
+
+@media (max-width: 520px) {
+  .error-code {
+    font-size: 3rem;
+  }
+  .error-title {
+    font-size: 1.4rem;
+  }
+  .error-hero .hero-inner {
+    padding: 2rem 1rem;
+  }
+}

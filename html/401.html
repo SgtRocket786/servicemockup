@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unauthorized (401)</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/error.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+  </head>
+  <body>
+    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+
+    <main>
+      <section class="error-hero">
+        <div class="hero-inner">
+          <div class="container">
+            <h1 class="error-code">401</h1>
+            <p class="error-title">Unauthorized</p>
+            <p class="error-subtitle">You don't have access to this page.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="container">
+        <div class="error-card">
+          <p>Looks like you need to sign in or request access.</p>
+          <div class="error-actions">
+            <a class="btn-primary" href="/html/login.html">Sign In</a>
+            <a class="btn-outline" href="/index.html">Go Home</a>
+          </div>
+          <p class="error-help">
+            If you believe this is a mistake, please contact support.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/nav-load.js"></script>
+    <script src="/js/footer-load.js"></script>
+  </body>
+</html>

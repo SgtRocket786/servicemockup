@@ -1,0 +1,483 @@
+/* Admin styles re-use variables from base.css */
+
+/* Namespaced admin styles to avoid bleeding into public UI */
+.admin {
+  background: var(--gray-100);
+  min-height: calc(100vh - 160px); /* account for header+footer */
+}
+
+.admin .admin-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.admin .admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.admin .admin-title {
+  font-size: 1.75rem;
+  color: var(--primary);
+}
+
+.admin .admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin .admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  align-items: start; /* prevent stretch-induced overflow */
+}
+
+.admin .card {
+  background: var(--white);
+  border-radius: var(--card-radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+  overflow: hidden; /* prevent any inner transforms from bleeding out */
+  min-width: 0; /* allow grid to shrink item without overflow */
+}
+
+/* Editor page: allow rich text toolbar/popovers to overflow cleanly */
+.admin .editor-card {
+  overflow: visible; /* ensure descendants can overflow the card */
+}
+.admin .editor-card .ql-toolbar,
+.admin .editor-card .ql-container {
+  position: relative;
+  z-index: 200; /* baseline within card */
+}
+.admin .editor-card .ql-container {
+  min-height: 220px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  background: var(--white);
+}
+.admin .editor-card .ql-toolbar {
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  background: var(--white);
+  margin-bottom: 0.5rem;
+  overflow: visible; /* allow picker dropdown to overflow */
+}
+.admin .editor-card .ql-editor {
+  min-height: 200px;
+  padding: 0.6rem 0.75rem;
+}
+
+/* Ensure the content editor area is always visibly boxed */
+.admin .content-editor {
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  background: var(--white);
+  min-height: 220px;
+  pointer-events: auto;
+  position: relative;
+  overflow: visible; /* allow toolbar dropdowns to overflow */
+}
+.admin .content-editor .ql-container {
+  border: 0;
+  min-height: 220px;
+  position: relative;
+  z-index: 1000; /* keep editor under toolbar dropdowns */
+}
+
+/* Ensure Quill inside content-editor is always interactive and visible */
+.admin .content-editor .ql-toolbar,
+.admin .content-editor .ql-container {
+  position: relative;
+  pointer-events: auto;
+}
+.admin .content-editor .ql-toolbar {
+  z-index: 900; /* below fixed header (1000) */
+}
+.admin .content-editor .ql-container {
+  z-index: 100; /* keep content under navbar */
+}
+
+/* Flatten any legacy mini-gallery markup (old content) */
+.admin .ql-editor .mini-gallery {
+  display: contents;
+}
+.admin .ql-editor .mini-gallery figure {
+  display: block;
+  margin: 0.75rem auto;
+  max-width: 640px;
+}
+.admin .ql-editor .mini-gallery img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+/* Aesthetic images inside the Quill editor (smaller by default) */
+.admin .ql-editor img {
+  display: block;
+  width: 100%;
+  max-width: 640px; /* reduce dominance */
+  height: auto;
+  margin: 0.75rem auto;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+}
+/* Allow alignment controls to affect images with good wrapping */
+.admin .ql-editor .ql-align-left img {
+  float: left;
+  margin: 0.5rem 1rem 1rem 0;
+}
+.admin .ql-editor .ql-align-right img {
+  float: right;
+  margin: 0.5rem 0 1rem 1rem;
+}
+.admin .ql-editor .ql-align-center img {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Clear floats within editor content area to avoid layout overflow */
+.admin .content-editor:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Removed mini-gallery layout styles */
+/* no custom scrollbar needed when not scrolling */
+.admin .content-editor textarea.form-control {
+  border: 0;
+  min-height: 220px;
+  resize: vertical;
+}
+
+/* SimpleEditor styles removed: Quill-only editor in use */
+
+/* Ensure Quill popups/dropdowns are above editor but below header */
+.admin .ql-tooltip,
+.admin .ql-picker-options {
+  position: absolute; /* Quill default */
+  z-index: 1400; /* above toolbar and header */
+  pointer-events: auto;
+}
+
+/* Skeleton loaders */
+.admin .skeleton .thumb {
+  height: 150px;
+  border-radius: var(--card-radius);
+  background: linear-gradient(
+    90deg,
+    var(--gray-200),
+    var(--gray-300),
+    var(--gray-200)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.admin .skeleton .line {
+  height: 14px;
+  border-radius: 7px;
+  background: linear-gradient(
+    90deg,
+    var(--gray-200),
+    var(--gray-300),
+    var(--gray-200)
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin: 8px 0;
+}
+@keyframes shimmer {
+  0% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Admin post card preview (similar to portfolio tiles) */
+.admin .admin-post-card {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  box-shadow: none; /* avoid portfolio tile shadow */
+  transition: none; /* disable portfolio hover transitions */
+  position: relative; /* create local stacking context */
+  z-index: auto; /* reset stacking context */
+  min-width: 0; /* prevent content from forcing width */
+  pointer-events: none; /* block card from intercepting clicks */
+}
+
+/* Neutralize portfolio hover/overlay effects for admin cards */
+.admin .admin-post-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+.admin .admin-post-card::before {
+  content: none;
+}
+
+.admin .admin-post-card .thumb {
+  display: block;
+  width: 100%;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin .admin-post-card .thumb img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transform: none !important; /* hard stop on any inherited transforms */
+  pointer-events: none; /* image should not capture clicks */
+}
+/* No-thumb variant: show a strong initial like other cards */
+.admin .admin-post-card.no-thumb .thumb.no-thumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 150px; /* align with image height in admin cards */
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    var(--primary) 0%,
+    var(--primary-light) 55%,
+    var(--primary-dark) 100%
+  );
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.admin .admin-post-card.no-thumb .thumb.no-thumb .initial {
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+/* Variant: blog card without thumbnail */
+.admin .admin-post-card.no-thumb {
+  grid-template-columns: 160px minmax(0, 1fr);
+}
+.admin .admin-post-card .thumb.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gray-200);
+  border: 2px dashed var(--gray-400);
+  height: 150px;
+  border-radius: var(--card-radius);
+  box-shadow: none;
+}
+.admin .admin-post-card .no-thumb-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-600);
+}
+.admin .admin-post-card .toolbar,
+.admin .admin-post-card .toolbar *,
+.admin .admin-post-card button,
+.admin .admin-post-card a {
+  pointer-events: auto; /* allow interactions inside toolbar */
+  position: relative;
+  z-index: 5;
+}
+
+/* Compact action buttons inside cards so they fit small columns */
+.admin .admin-post-card .toolbar .btn {
+  min-width: auto;
+  padding: 0.5rem 1rem;
+}
+
+.admin .admin-post-card .admin-post-body h3 {
+  margin: 0 0 0.25rem 0;
+  color: var(--primary);
+}
+
+.admin .admin-post-card .admin-post-body p {
+  color: var(--gray-600);
+  margin: 0;
+}
+
+/* Forms */
+.admin .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .admin .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin label {
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.admin .form-control,
+.admin input,
+.admin textarea {
+  width: 100%;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  background: var(--white);
+}
+
+.admin textarea {
+  min-height: 90px;
+  resize: vertical;
+  position: relative;
+  z-index: 0; /* below Quill toolbar/pickers */
+}
+
+/* Prevent form groups from clipping floating toolbars/popovers */
+.admin .form-group {
+  overflow: visible;
+}
+
+.admin .help-text {
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
+
+.admin .gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin .gallery img {
+  width: 140px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+}
+
+.admin .gallery .remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+}
+
+.admin .toolbar {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Layout for large CRUD: sidebar list + editor */
+.admin .layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1rem;
+}
+
+.admin .sidebar {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  padding: 0.75rem;
+  height: 100%;
+}
+
+.admin .list {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.admin .list-item {
+  padding: 0.6rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.admin .list-item:hover {
+  background: var(--gray-100);
+}
+.admin .list-item.selected {
+  background: var(--primary-light);
+}
+.admin .list-item .title {
+  font-weight: 600;
+}
+.admin .list-item .subtitle {
+  color: var(--gray-600);
+  font-size: 0.9rem;
+}
+
+.admin .pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.admin .page-info {
+  color: var(--gray-600);
+}
+
+.admin .content {
+  min-height: 200px;
+}
+
+/* Toast notifications */
+.admin .toast {
+  position: sticky;
+  top: 8px;
+  z-index: 10;
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeout 3s forwards;
+}
+.admin .toast.success {
+  background: #e8f7ee;
+  color: #17663a;
+}
+.admin .toast.error {
+  background: #fde8ea;
+  color: #8b1a1a;
+}
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Login */
+.admin .login-card {
+  max-width: 520px;
+  margin: 1rem auto;
+}
+
+/* Focus styles for accessibility */
+.admin a:focus,
+.admin button:focus,
+.admin input:focus,
+.admin textarea:focus {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 2px;
+}

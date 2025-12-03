@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Login — Acme Landscaping</title>
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Small page-specific tweaks for the login form */
+      .login-page {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1rem;
+        background: var(--gray-100);
+      }
+      .login-card {
+        background: var(--white);
+        max-width: 420px;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow-lg);
+      }
+      .login-card h1 {
+        margin: 0 0 1rem 0;
+        font-size: 1.25rem;
+        color: var(--primary);
+      }
+      .form-group {
+        margin-bottom: 0.75rem;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 600;
+      }
+      .form-group input {
+        width: 100%;
+        padding: 0.6rem 0.75rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+      }
+      .login-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+    <main>
+      <section class="login-page">
+        <div class="login-card">
+          <h1>Admin Login</h1>
+          <form id="admin-login" action="#" method="post">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" required />
+            </div>
+            <div class="login-actions">
+              <button type="submit" class="btn btn-primary">Sign in</button>
+              <a href="/index.html" class="btn btn-secondary">Back to site</a>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/nav-load.js"></script>
+    <script src="/js/footer-load.js"></script>
+    <script>
+      // placeholder handler — redirect to admin dashboard for now
+      document.addEventListener("DOMContentLoaded", function () {
+        function getBasePrefix() {
+          var parts = location.pathname.split("/").filter(Boolean);
+          if (parts.length === 0) return "";
+          if (parts[0].indexOf(".") !== -1) return "";
+          if (parts[0] === "html") return "";
+          return "/" + parts[0];
+        }
+        var base = getBasePrefix();
+        var form = document.getElementById("admin-login");
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          // TODO: replace with real auth flow
+          window.location.href = (base || "") + "/html/admin/index.html";
+        });
+      });
+    </script>
+  </body>
+</html>

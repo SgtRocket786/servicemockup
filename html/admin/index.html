@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin Dashboard — Portfolio Posts</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/portfolio.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <style>
+      .admin-wrap {
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 1rem;
+      }
+      .admin-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        align-items: center;
+      }
+      .posts-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .posts-table th,
+      .posts-table td {
+        padding: 0.6rem;
+        border-bottom: 1px solid var(--gray-200);
+        text-align: left;
+      }
+      .posts-table img {
+        width: 100px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+      .form-row {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .form-row .col {
+        flex: 1;
+      }
+      .modal {
+        background: rgba(0, 0, 0, 0.45);
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal.open {
+        display: flex;
+      }
+      .modal-card {
+        background: var(--white);
+        border-radius: 8px;
+        box-shadow: var(--shadow-lg);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        /* square-ish modal constrained to viewport */
+        width: min(1100px, 90vw);
+        height: min(1100px, 90vh);
+        max-width: 95%;
+        max-height: 95vh;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar will be loaded here dynamically from /html/_navbar.html -->
+    <main>
+      <div class="admin-wrap">
+        <h1>Admin — Portfolio Posts</h1>
+        <div class="admin-actions">
+          <button id="btn-new" class="btn btn-primary">New Post</button>
+          <button id="btn-download" class="btn btn-secondary">
+            Download posts.json
+          </button>
+          <div class="admin-note">
+            Edits are client-side only; download JSON to persist.
+          </div>
+        </div>
+
+        <table class="posts-table">
+          <thead>
+            <tr>
+              <th>Thumb</th>
+              <th>Title</th>
+              <th>Caption</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="posts-body"></tbody>
+        </table>
+      </div>
+
+      <div id="modal" class="modal" aria-hidden="true">
+        <div class="modal-card modal-admin">
+          <header class="modal-header">
+            <div>
+              <h2 id="modal-title">Edit Post</h2>
+              <div id="modal-sub" class="muted">
+                Edit content, add images, tags and preview.
+              </div>
+            </div>
+            <div class="modal-header-actions">
+              <button id="btn-preview" class="btn btn-sm btn-secondary">
+                Preview
+              </button>
+              <button id="btn-close" class="btn btn-sm btn-ghost">✕</button>
+            </div>
+          </header>
+
+          <form id="post-form">
+            <div class="modal-grid">
+              <div class="panel">
+                <label class="label">Slug (url-friendly)</label>
+                <input name="slug" required />
+
+                <label class="label">Title</label>
+                <input name="title" required />
+
+                <div class="form-row">
+                  <div class="col">
+                    <label class="label">Date</label>
+                    <input name="date" type="date" />
+                  </div>
+                  <div class="col">
+                    <label class="label">Caption</label>
+                    <input name="caption" />
+                  </div>
+                </div>
+
+                <label class="label">Excerpt (optional)</label>
+                <textarea name="excerpt" rows="3"></textarea>
+
+                <label class="label">Tags (comma separated)</label>
+                <input name="tags" placeholder="landscape, patio, xeriscape" />
+
+                <label class="label">Thumb image</label>
+                <div class="thumb-row">
+                  <input name="thumb" placeholder="/images/.. or data-url" />
+                  <input id="thumb-file" type="file" accept="image/*" />
+                </div>
+                <div class="thumb-preview">
+                  <img id="thumb-preview-img" alt="thumb preview" />
+                </div>
+
+                <label class="label">Gallery (optional)</label>
+                <div class="gallery-controls">
+                  <input
+                    id="gallery-files"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                  />
+                  <div class="muted small">
+                    Select multiple images to upload to the gallery.
+                  </div>
+                  <div id="gallery-list" class="gallery-list"></div>
+                </div>
+
+                <!-- Before/After pair UI removed — admin can add before/after images in content or gallery manually -->
+              </div>
+
+              <div class="panel panel-preview">
+                <div
+                  class="editor-toolbar"
+                  role="toolbar"
+                  aria-label="Formatting"
+                >
+                  <button
+                    type="button"
+                    data-cmd="bold"
+                    title="Bold"
+                    class="btn btn-sm"
+                  >
+                    B
+                  </button>
+                  <button
+                    type="button"
+                    data-cmd="italic"
+                    title="Italic"
+                    class="btn btn-sm"
+                  >
+                    I
+                  </button>
+                  <button
+                    type="button"
+                    data-cmd="createLink"
+                    title="Link"
+                    class="btn btn-sm"
+                  >
+                    🔗
+                  </button>
+                  <button
+                    type="button"
+                    data-cmd="insertImage"
+                    title="Insert image"
+                    class="btn btn-sm"
+                  >
+                    🖼
+                  </button>
+                </div>
+
+                <label class="label">Content</label>
+                <div id="editor" class="editor" contenteditable="true"></div>
+
+                <div class="preview-area" aria-live="polite">
+                  <h3 class="muted">Live Preview</h3>
+                  <div id="live-preview" class="card-preview"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" id="btn-cancel" class="btn btn-secondary">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">Save Post</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="/js/config.js"></script>
+    <script src="/js/ui.js"></script>
+    <script src="/js/nav-load.js"></script>
+    <script src="/js/footer-load.js"></script>
+    <script>
+      // set API base for admin to point to server when running locally
+      // change or set window.API_BASE = 'http://localhost:5000' when running server
+      window.API_BASE = "";
+    </script>
+    <script src="/js/admin.js"></script>
+  </body>
+</html>
