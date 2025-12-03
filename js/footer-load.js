@@ -1,16 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  function getBasePrefix() {
-    var parts = location.pathname.split("/").filter(Boolean);
-    if (parts.length === 0) return "";
-    if (parts[0].indexOf(".") !== -1) return "";
-    if (parts[0] === "html") return "";
-    return "/" + parts[0];
-  }
-  var base = getBasePrefix();
-
   var footerEl = document.getElementById("footer");
   var srcAttr = footerEl ? footerEl.getAttribute("data-src") : null;
-  var footerSrc = srcAttr || (base || "") + "/html/_footer.html";
+  var footerSrc = srcAttr || "html/_footer.html";
   console.debug("[footer-load] footer src:", footerSrc);
   fetch(footerSrc)
     .then(function (r) {
@@ -23,20 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.insertAdjacentHTML("beforeend", html);
       }
 
-      // Fix root-relative paths inside the footer (so /images/... becomes /repo/images/... when hosted under a repo)
-      try {
-        var footer = document.querySelector(".site-footer");
-        if (footer) {
-          footer.querySelectorAll('[href^="/"]').forEach(function (el) {
-            var h = el.getAttribute("href");
-            el.setAttribute("href", (base || "") + h);
-          });
-          footer.querySelectorAll('[src^="/"]').forEach(function (el) {
-            var s = el.getAttribute("src");
-            el.setAttribute("src", (base || "") + s);
-          });
-        }
-      } catch (e) {}
+      // No path rewriting — partial must use correct relative paths.
 
       // Fill dynamic values if SITE is present
       try {

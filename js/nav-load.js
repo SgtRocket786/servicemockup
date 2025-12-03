@@ -1,19 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Compute a base prefix for project pages hosted under a repo (e.g. /repo)
-  function getBasePrefix() {
-    var parts = location.pathname.split("/").filter(Boolean);
-    if (parts.length === 0) return "";
-    // If first segment looks like a file (index.html) don't treat as repo
-    if (parts[0].indexOf(".") !== -1) return "";
-    // If the site is already under /html/, don't prefix with 'html' (would cause /html/html/...)
-    if (parts[0] === "html") return "";
-    return "/" + parts[0];
-  }
-  var base = getBasePrefix();
-
   var headerEl = document.getElementById("navbar");
   var srcAttr = headerEl ? headerEl.getAttribute("data-src") : null;
-  var navbarSrc = srcAttr || (base || "") + "/html/_navbar.html";
+  var navbarSrc = srcAttr || "html/_navbar.html";
   console.debug("[nav-load] navbar src:", navbarSrc);
   // Load the navbar partial and inject at the top of the body or into #navbar
   fetch(navbarSrc)
@@ -27,22 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.insertAdjacentHTML("afterbegin", html);
       }
 
-      // Fix any root-relative paths inside the injected partial (e.g. /css/, /images/)
-      try {
-        var header = document.querySelector(".header");
-        if (header) {
-          header.querySelectorAll('[href^="/"]').forEach(function (el) {
-            var h = el.getAttribute("href");
-            el.setAttribute("href", (base || "") + h);
-          });
-          header.querySelectorAll('[src^="/"]').forEach(function (el) {
-            var s = el.getAttribute("src");
-            el.setAttribute("src", (base || "") + s);
-          });
-        }
-      } catch (e) {
-        // ignore
-      }
+      // No path rewriting — partial must use correct relative paths.
 
       // Wire up mobile menu toggle
       var scope = headerEl || document;

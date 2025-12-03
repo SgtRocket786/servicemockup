@@ -1,28 +1,14 @@
 (async () => {
-  function getBasePrefix() {
-    var parts = location.pathname.split("/").filter(Boolean);
-    if (parts.length === 0) return "";
-    if (parts[0].indexOf(".") !== -1) return "";
-    if (parts[0] === "html") return "";
-    return "/" + parts[0];
-  }
-  var base = getBasePrefix();
-
   const grid = document.getElementById("posts");
   try {
-    const res = await fetch((base || "") + "/html/blogs/posts.json");
+    const res = await fetch("html/blogs/posts.json");
     const posts = await res.json();
     const html = (posts || [])
       .map((p) => {
         var href =
-          (base || "") +
-          "/html/blogs/post.html?slug=" +
-          encodeURIComponent(p.slug || "");
+          "html/blogs/post.html?slug=" + encodeURIComponent(p.slug || "");
         var hasThumb = !!p.thumb;
-        var thumb =
-          p.thumb && p.thumb.indexOf("/") === 0
-            ? (base || "") + p.thumb
-            : p.thumb || (base || "") + "/images/pexels-pixabay-259588.jpg";
+        var thumb = p.thumb || "images/pexels-pixabay-259588.jpg";
         var initial = (p.title || "B").trim().charAt(0).toUpperCase();
         var noThumbClass = hasThumb ? "" : " no-thumb";
         var date = p.date
