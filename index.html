@@ -154,6 +154,25 @@
     <script src="js/home-blogs.js"></script>
     <script src="js/home-services.js"></script>
     <script>
+      // Diagnostics for GitHub Pages path issues
+      (async () => {
+        const tests = [
+          { name: "navbar", url: "html/_navbar.html" },
+          { name: "footer", url: "html/_footer.html" },
+          { name: "portfolio.json", url: "html/portfolio/posts.json" },
+          { name: "blogs.json", url: "html/blogs/posts.json" },
+          { name: "base.css", url: "css/base.css" },
+        ];
+        for (const t of tests) {
+          try {
+            const r = await fetch(t.url, { cache: "no-store" });
+            console.log("[diag]", t.name, r.ok ? "OK" : r.status, t.url);
+          } catch (e) {
+            console.warn("[diag]", t.name, "ERR", t.url, e);
+          }
+        }
+        console.log("[diag] location", location.href, location.pathname);
+      })();
       // Load blogs to mirror React's HomeBlogs (using local mock for prototype)
       fetch("html/blogs/posts.json")
         .then((r) => r.json())
